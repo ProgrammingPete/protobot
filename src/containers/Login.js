@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
+import axios from 'axios'
 
 export default class Login extends Component {
   constructor(props) {
@@ -20,18 +21,21 @@ export default class Login extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
-  }
+  };
 
   handleSubmit = event => {
     alert('A name was submitted: ' + this.state.email);
+    axios.post("http://127.0.0.1:5678/api/v1.0/login", this.email, this.password)
+        .then((response) => {
+          console.log(response.data)
+        });
     event.preventDefault();
-
-  }
+  };
 
   render() {
     return (
       <div className="Loginbox">
-        <form action={"http://localhost:5678/api/v1.0/create"} method={"post"}>
+        <form onSubmit={this.handleSubmit}>
           <h1>Login</h1>
           <FormGroup controlId="email" className={"textbox"}>
             <i className="fas fa-user" aria-hidden="true"/>
