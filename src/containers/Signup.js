@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import React, {Component} from "react";
+import {Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import "./Login.css";
 import axios from 'axios';
 
@@ -21,16 +21,16 @@ export default class Login extends Component {
         this.setState({
             [event.target.id]: event.target.value
         });
-    }
+    };
 
     handleSubmit = event => {
         axios.post('http://127.0.0.1:5678/api/v1.0/create', this.email, this.password)
             .then((response) => {
                 console.log(response.data)
-            })
+            });
         event.preventDefault();
 
-    }
+    };
 
     render() {
         return (
