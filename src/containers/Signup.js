@@ -3,7 +3,7 @@ import {Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import "./Login.css";
 import axios from 'axios';
 
-export default class Login extends Component {
+export default class Signup extends Component {
     constructor(props) {
         super(props);
 
@@ -24,7 +24,7 @@ export default class Login extends Component {
     };
 
     handleSubmit = event => {
-        axios.post('http://127.0.0.1:5678/api/v1.0/create', this.email, this.password)
+        axios.post('protoserver.centralus.cloudapp.azure.com:5678/api/v1.0/create', this.email, this.password)
             .then((response) => {
                 console.log(response.data)
             });

@@ -25,7 +25,7 @@ export default class Login extends Component {
 
     handleSubmit = event => {
         alert('A name was submitted: ' + this.state.email);
-        axios.post("http://127.0.0.1:5678/api/v1.0/login", this.email, this.password)
+        axios.post("protoserver.centralus.cloudapp.azure.com:5678/api/v1.0/login", this.email, this.password)
             .then((response) => {
                 console.log(response.data)
             });
