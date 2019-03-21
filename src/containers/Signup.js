@@ -24,7 +24,8 @@ export default class Signup extends Component {
     };
 
     handleSubmit = event => {
-        axios.post('protoserver.centralus.cloudapp.azure.com:5678/api/v1.0/create', this.email, this.password)
+        //axios.post('http://protoserver.centralus.cloudapp.azure.com:80/api/v1.0/create', this.email, this.password)
+        axios.post('http://localhost:5678/api/v1.0/create', this.email, this.password)
             .then((response) => {
                 console.log(response.data)
             });

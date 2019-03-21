@@ -3,31 +3,54 @@ import {Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import "./Login.css";
 import axios from 'axios'
 
-export default class Data extends Component {
+export default class Data extends React.Component {
     state = {
-        data: []
+        tradingData: [],
+        isLoading: true,
+        errors: null
     };
 
+    getTradingData(){
+        axios.get("http://protoserver.centralus.cloudapp.azure.com:80/api/v1.0/update")
+            .then(response => {
+                this.setState({
+                    tradingData: response.data.Trading_Info,
+                    isLoading: false
+                });
+            })
+            .catch(error => this.setState({error, isLoading: false}));
+    }
+
     componentDidMount(){
-        axios.get("http://protoserver.centralus.cloudapp.azure.com:5678/api/v1.0/update")
-            .then(response => response.data)
-            .then(data => this.setState({data}));
+        this.getTradingData();
     }
 
 
-   render(){ 
-    return (
-        <table>
-            <tbody>
-                <tr>
-                    {
-                        this.state.data.map(function(item){
-                        return <td key={item.SMA-10}>{item.SMA-10} - {item.SMA-20}</td>;
+    render(){
+        const {isLoading, tradingData} = this.state;
+        return(
+            <React.Fragment>
+                <h2>Trading Data</h2>
+                <div>
+                    {!isLoading ? (
+                        tradingData.map(item =>{
+                            const{Close_Price, Close_time, High, Low} = item;
+                            return(
+                                <div>
+                                    <h2>{Close_Price}</h2>
+                                    <p>{Close_time}</p>
+                                    <p>{High}</p>
+                                    <p>{Low}</p>
+                                    <hr />
+                                </div>
+                            );
                         })
+                    ):(
+                        <p>Loading...</p>
+                    ) 
                     }
-                </tr>
-            </tbody>
-        </table>
-      );
+                </div>
+            </React.Fragment>
+        );
     }
   }
