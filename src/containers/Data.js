@@ -11,7 +11,7 @@ export default class Data extends React.Component {
     };
 
     getTradingData(){
-        axios.get("http://protoserver.centralus.cloudapp.azure.com:80/api/v1.0/update")
+        axios.get("https://protoserver.centralus.cloudapp.azure.com/api/v1.0/update")
             .then(response => {
                 this.setState({
                     tradingData: response.data.Trading_Info,

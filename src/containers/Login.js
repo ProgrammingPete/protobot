@@ -24,13 +24,17 @@ export default class Login extends Component {
     };
 
     handleSubmit = event => {
-        //axios.post("http://protoserver.centralus.cloudapp.azure.com:80/api/v1.0/login", this.email, this.password)
-        axios.post("http://localhost:5678/api/v1.0/login", this.email, this.password)
-            .then((response) => {
-                console.log(response.data)
-            });
-        event.preventDefault();
-    };
+        //axios.post("https://protoserver.centralus.cloudapp.azure.com/api/v1.0/login", {
+        axios.post("https://localhost:5678/api/v1.0/login", {
+            email: this.state.email, 
+            password: this.state.password,
+    })
+    .then((response) => {
+        console.log(response.data)
+    });
+event.preventDefault();
+
+};
 
     render() {
         return (
