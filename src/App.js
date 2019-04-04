@@ -26,6 +26,9 @@ render() {
             <LinkContainer to="/login">
               <NavItem>Login</NavItem>
             </LinkContainer>
+            <LinkContainer to="/data">
+            <NavItem>Data</NavItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
