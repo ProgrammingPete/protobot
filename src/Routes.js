@@ -14,5 +14,5 @@ export default () =>
     <Route path={'/signup'} exact component={Signup} />
     <Route path={'/data'} exact component={Data} />
     { /* Finally, catch all unmatched routes */ }
-	<Route component={NotFound} />
+	  <Route component={NotFound} />
   </Switch>;
