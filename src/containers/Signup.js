@@ -30,7 +30,16 @@ export default class Signup extends Component {
             password: this.state.password,
     })
             .then((response) => {
-                console.log(response.data)
+                console.log("Response", response)
+                if (response.data === 'success'){
+                    this.props.history.push('/login')
+                }
+                else if (response.data === 'failure'){
+                    this.props.history.push('/failure')
+                }
+            })
+            .catch((error) => {
+                console.log("Axios Error", error)
             });
         event.preventDefault();
 

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import "./Login.css";
 import axios from 'axios'
+import withRouter from 'react-router-dom'
 
 export default class Login extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ export default class Login extends Component {
             password: ""
         };
     }
+   
 
     validateForm() {
         return this.state.email.length > 0 && this.state.password.length > 0;
@@ -24,17 +26,26 @@ export default class Login extends Component {
     };
 
     handleSubmit = event => {
-        axios.post("https://protoserver.centralus.cloudapp.azure.com/api/v1.0/login", {
-        //axios.post("https://localhost:5678/api/v1.0/login", {
+        axios.post('https://protoserver.centralus.cloudapp.azure.com/api/v1.0/login', {
+        //axios.post('http://localhost:5678/api/v1.0/create', {
             email: this.state.email, 
             password: this.state.password,
     })
-    .then((response) => {
-        console.log(response.data)
-    });
-event.preventDefault();
+            .then((response) => {
+                console.log("Response", response)
+                if (response.data === 'success'){
+                    this.props.history.push('/data')
+                }
+                else if (response.data === 'failure'){
+                    this.props.history.push('/failure')
+                }
+            })
+            .catch((error) => {
+                console.log("Axios Error", error)
+            });
+        event.preventDefault();
 
-};
+    };
 
     render() {
         return (
