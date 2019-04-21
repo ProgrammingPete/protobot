@@ -30,10 +30,6 @@ render() {
             <NavItem>Data</NavItem>
             </LinkContainer>
           </Nav>
-		  <Form inline>
-			<FormControl type="type" placeholder="Search" className="mr-sm-2" />
-			<Button variant="outline-success" className="btn">Search</Button>
-		  </Form>
         </Navbar.Collapse>
       </Navbar>
       <Routes />

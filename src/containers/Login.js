@@ -3,10 +3,10 @@ import {Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import "./Login.css";
 import axios from 'axios'
 import withRouter from 'react-router-dom'
-//import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf")
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
+
 
 
 
@@ -59,7 +59,7 @@ export default class Login extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <h1>Login</h1>
                     <FormGroup controlId="email" className={"textbox"}>
-                        <i class="fas fa-user"></i>
+                        <i className="fas fa-user"></i>
                         <FormControl
                             autoFocus
                             type="email"
@@ -69,7 +69,7 @@ export default class Login extends Component {
                         />
                     </FormGroup>
                     <FormGroup controlId="password" className={"textbox"}>
-                        <i className="fas fa-user" aria-hidden="true"/>
+                        <i className="fas fa-lock"></i>
                         <FormControl
                             value={this.state.password}
                             onChange={this.handleChange}
