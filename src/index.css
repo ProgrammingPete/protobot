@@ -9,6 +9,9 @@ body {
   background-image: url(loginBackground.jpg);
   background-repeat: no-repeat;
   background-size: cover;
+  margin: null;
+  height: 100%; 
+
 }
 
 code {
