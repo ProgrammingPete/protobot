@@ -1,7 +1,10 @@
 import React, {Component} from "react";
-import {Button, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import "./Login.css";
 import axios from 'axios'
+import { render } from 'react-dom';
+import Chart from './Chart';
+import { getData } from "./Utils"
+import { TypeChooser } from "react-stockcharts/lib/helper"
 
 export default class Data extends React.Component {
     state = {
@@ -23,34 +26,22 @@ export default class Data extends React.Component {
 
     componentDidMount(){
         this.getTradingData();
-    }
+	}
 
 
     render(){
         const {isLoading, tradingData} = this.state;
-        return(
-            <React.Fragment>
-                <h2>Trading Data</h2>
-                <div>
-                    {!isLoading ? (
-                        tradingData.map(item =>{
-                            const{Close_Price, Close_time, High, Low} = item;
-                            return(
-                                <div>
-                                    <h2>{Close_Price}</h2>
-                                    <p>{Close_time}</p>
-                                    <p>{High}</p>
-                                    <p>{Low}</p>
-                                    <hr />
-                                </div>
-                            );
-                        })
-                    ):(
-                        <p>Loading...</p>
-                    ) 
-                    }
-                </div>
-            </React.Fragment>
-        );
-    }
-  }
+		if (this.state.tradingData == null) {
+			return <div>Loading...</div>
+		}
+		return (
+			<div className="chart">
+				<TypeChooser>
+					{type => <Chart type={type} data={this.state.tradingData} />}
+				</TypeChooser>
+				<h1>Testing This Out</h1>
+			</div>
+			)
+	}
+}
+    

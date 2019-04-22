@@ -29,6 +29,9 @@ render() {
             <LinkContainer to="/data">
             <NavItem>Data</NavItem>
             </LinkContainer>
+            <LinkContainer to="/chart">
+            <NavItem>Chart</NavItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

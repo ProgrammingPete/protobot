@@ -5,6 +5,7 @@ import NotFound from "./containers/NotFound";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Data from "./containers/Data";
+import { Chart } from "react-stockcharts";
 
 
 export default () =>
@@ -13,6 +14,7 @@ export default () =>
     <Route path="/login" exact component={Login} />
     <Route path={'/signup'} exact component={Signup} />
     <Route path={'/data'} exact component={Data} />
+    <Route path={'/chart'} exact component={Chart} />
     { /* Finally, catch all unmatched routes */ }
 	  <Route component={NotFound} />
   </Switch>;
