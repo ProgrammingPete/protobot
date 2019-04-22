@@ -27,10 +27,10 @@ render() {
               <NavItem>Login</NavItem>
             </LinkContainer>
             <LinkContainer to="/data">
-            <NavItem>Data</NavItem>
+            <NavItem>Bitcoin</NavItem>
             </LinkContainer>
             <LinkContainer to="/chart">
-            <NavItem>Chart</NavItem>
+            <NavItem>Ethereum</NavItem>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>

@@ -1,41 +1,30 @@
-
-
 import React, { Component } from 'react';
-import { tsvParse, csvParse } from  "d3-dsv";
-import { timeParse } from "d3-time-format";
-import { axios } from "axios";
+import { csvParse } from  "d3-dsv";
+import { timeParse, timeFormat } from "d3-time-format";
 
-class App extends Component {
-	constructor(props){
-		super(props);
-		this.state={
-			tradingData: []
-		};
-	}
+function parseData(parse, format) {
+	return function(d) {
+		d.index = +d.index;
+		d.Close_Price = +d.Close_Price;
+		format(d.Close_time);
+		d.Close_time = parse(d.Close_time);
+		d.High = +d.High;
+		d.Low = +d.Low;
+		d.Open_Price = +d.Open_Price;
+		format(d.Open_Time);
+		d.Open_Time = parse(d.Open_Time);
+		d.Volume = +d.Volume;
 
-	/*
-	function parseData() {
-		const { tradingData } = this.state;
-		tradingData.map(item => {
-			item.Open_Time = item.Open_Time;
-			item.Close_Price = +item.Close_Price;
-			item.Open_Price = +item.Open_Price;
-			item.High = +item.High;
-			item.Low = +item.Low;
-			item.Volume = +item.Volume;
+		return d;
+	};
+}
 
-			return item;
-		})
-	}
-	*/
+const parseDate = timeParse("%Y/%m/%d");
+const formatDate = timeFormat("%Y/%m/%d");
 
-	getTradingData(){
-		axios.get("https://protoserver.centralus.cloudapp.azure.com/api/v1.0/update")
-			.then(response => {
-				this.setState({
-					tradingData: response.data.Trading_Info
-				});
-			})
-			.catch(error => console.log("Axios Error: ", error));
-	}
+export function getTradingData(){
+	const tradingData = fetch("https://protoserver.centralus.cloudapp.azure.com/api/v1.0/btcOneWeek")
+	.then(response => response.text())
+	.then(data => csvParse(data, parseData(parseDate, formatDate)))
+return tradingData;
 }

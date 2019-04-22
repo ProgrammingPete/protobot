@@ -3,43 +3,27 @@ import "./Login.css";
 import axios from 'axios'
 import { render } from 'react-dom';
 import Chart from './Chart';
-import { getData } from "./Utils"
+import { getTradingData } from "./Utils"
 import { TypeChooser } from "react-stockcharts/lib/helper"
 
 export default class Data extends React.Component {
-    state = {
-        tradingData: [],
-        isLoading: true,
-        errors: null
-    };
-
-    getTradingData(){
-        axios.get("https://protoserver.centralus.cloudapp.azure.com/api/v1.0/update")
-            .then(response => {
-                this.setState({
-                    tradingData: response.data.Trading_Info,
-                    isLoading: false
-                });
-            })
-            .catch(error => this.setState({error, isLoading: false}));
-    }
-
     componentDidMount(){
-        this.getTradingData();
+       getTradingData().then(data => {
+           this.setState({ data })
+       })
 	}
 
 
     render(){
-        const {isLoading, tradingData} = this.state;
-		if (this.state.tradingData == null) {
+		if (this.state == null) {
 			return <div>Loading...</div>
 		}
 		return (
 			<div className="chart">
+            <h1>Test Chart of One Week</h1>
 				<TypeChooser>
-					{type => <Chart type={type} data={this.state.tradingData} />}
+					{type => <Chart type={type} data={this.state.data} />}
 				</TypeChooser>
-				<h1>Testing This Out</h1>
 			</div>
 			)
 	}

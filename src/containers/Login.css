@@ -68,6 +68,10 @@
     margin: 12px 0;
   }
 
+  .chart{
+    background-color: white;
+    
+  }
   ::-webkit-input-placeholder {
     color: silver;
   }

@@ -3,20 +3,18 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { scaleTime } from "d3-scale";
-import { utcDay, utcMinutes } from "d3-time";
+import { utcDay } from "d3-time";
 
 import { ChartCanvas, Chart } from "react-stockcharts";
 import { CandlestickSeries } from "react-stockcharts/lib/series";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
 import { fitWidth } from "react-stockcharts/lib/helper";
 import { last, timeIntervalBarWidth } from "react-stockcharts/lib/utils";
-import { timeParse } from "d3-time-format";
 
 class CandleStickChart extends React.Component {
 	render() {
 		const { type, width, data, ratio } = this.props;
-		const parseDate = timeParse("%Y-%m-%d");
-		const xAccessor = tradingData => parseDate(tradingData.Open_Time);
+		const xAccessor = d => d.Open_Time;
 		const xExtents = [
 			xAccessor(last(data)),
 			xAccessor(data[data.length - 100])
@@ -27,13 +25,13 @@ class CandleStickChart extends React.Component {
 					width={width}
 					margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
 					type={type}
-					seriesName="BitCoin"
+					seriesName="BTCUSDT"
 					data={data}
 					xAccessor={xAccessor}
 					xScale={scaleTime()}
 					xExtents={xExtents}>
 
-				<Chart id={1} yExtents={tradingData => [tradingData.High, tradingData.Low]}>
+				<Chart id={1} yExtents={d => [d.High, d.Low]}>
 					<XAxis axisAt="bottom" orient="bottom" ticks={6}/>
 					<YAxis axisAt="left" orient="left" ticks={5} />
 					<CandlestickSeries width={timeIntervalBarWidth(utcDay)}/>
