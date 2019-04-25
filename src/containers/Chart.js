@@ -1,68 +1,179 @@
-
 import React from "react";
 import PropTypes from "prop-types";
 
 import { format } from "d3-format";
+import { timeFormat } from "d3-time-format";
 
-import { ChartCanvas, Chart } from "react-stockcharts";
+import { ChartCanvas, Chart, ZoomButtons } from "react-stockcharts";
 import { BarSeries, CandlestickSeries } from "react-stockcharts/lib/series";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
+import {
+	CrossHairCursor,
+	MouseCoordinateX,
+	MouseCoordinateY,
+} from "react-stockcharts/lib/coordinates";
 
 import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
+import {
+	OHLCTooltip,
+} from "react-stockcharts/lib/tooltip";
 import { fitWidth } from "react-stockcharts/lib/helper";
 import { last } from "react-stockcharts/lib/utils";
 
-class CandleStickChart extends React.Component {
+class CandleStickChartWithZoomPan extends React.Component {
+	constructor(props) {
+		super(props);
+		this.saveNode = this.saveNode.bind(this);
+		this.resetYDomain = this.resetYDomain.bind(this);
+		this.handleReset = this.handleReset.bind(this);
+	}
+	componentWillMount() {
+		this.setState({
+			suffix: 1
+		});
+	}
+	saveNode(node) {
+		this.node = node;
+	}
+	resetYDomain() {
+		this.node.resetYDomain();
+	}
+	handleReset() {
+		this.setState({
+			suffix: this.state.suffix + 1
+		});
+	}
 	render() {
-		const { type, data: initialData, width, ratio } = this.props;
+		const { type, width, ratio } = this.props;
+		const { mouseMoveEvent, panEvent, zoomEvent, zoomAnchor } = this.props;
+		const { clamp } = this.props;
+
+		const { data: initialData } = this.props;
 
 		const xScaleProvider = discontinuousTimeScaleProvider
 			.inputDateAccessor(d => d.Open_Time);
-		const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(initialData);
+		const {
+			data,
+			xScale,
+			xAccessor,
+			displayXAccessor,
+		} = xScaleProvider(initialData);
+
+		const candlesAppearance = {
+			wickStroke: "#000000",
+			fill: function fill(d) {
+			  return d.Close_Price > d.Open_Price ? "#6BA583" : "#FF0000";
+			},
+			stroke: "#000000",
+			candleStrokeWidth: 5,
+			widthRatio: 0.8,
+			opacity: 5,
+		  }
 
 		const start = xAccessor(last(data));
-		const end = xAccessor(data[Math.max(0, data.length - 100)]);
+		const end = xAccessor(data[Math.max(0, data.length - 150)]);
 		const xExtents = [start, end];
 
+		const margin = { left: 70, right: 70, top: 20, bottom: 30 };
+
+		const height = 400;
+
+		const gridHeight = height - margin.top - margin.bottom;
+		const gridWidth = width - margin.left - margin.right;
+
+		const showGrid = true;
+		const yGrid = showGrid ? { innerTickSize: -1 * gridWidth, tickStrokeOpacity: 0.2 } : {};
+		const xGrid = showGrid ? { innerTickSize: -1 * gridHeight, tickStrokeOpacity: 0.2 } : {};
+
 		return (
-			<ChartCanvas height={400}
+			<ChartCanvas ref={this.saveNode} height={height}
 				ratio={ratio}
 				width={width}
-				margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
+				margin={{ left: 70, right: 70, top: 10, bottom: 30 }}
+
+				mouseMoveEvent={mouseMoveEvent}
+				panEvent={panEvent}
+				zoomEvent={zoomEvent}
+				clamp={clamp}
+				zoomAnchor={zoomAnchor}
 				type={type}
-				seriesName="BTCUSDT"
+				seriesName={`BTCUSDT${this.state.suffix}`}
 				data={data}
 				xScale={xScale}
+				xExtents={xExtents}
 				xAccessor={xAccessor}
 				displayXAccessor={displayXAccessor}
-				xExtents={xExtents}
 			>
 
-				<Chart id={1} yExtents={d => [d.Open_Price, d.Close_Price]}>
-					<XAxis axisAt="bottom" orient="bottom"/>
-					<YAxis axisAt="right" orient="right" label="Price" ticks={5} />
-					<CandlestickSeries />
+				<Chart id={1}
+					yExtents={d => [d.High, d.Low]}
+				>
+					<XAxis axisAt="bottom"
+						orient="bottom"
+						zoomEnabled={zoomEvent}
+						{...xGrid} />
+					<YAxis axisAt="right"
+						orient="right"
+						ticks={5}
+						zoomEnabled={zoomEvent}
+						{...yGrid}
+					/>
+
+					<MouseCoordinateY
+						at="right"
+						orient="right"
+						displayFormat={format(".2f")} />
+
+					<CandlestickSeries {...candlesAppearance} />
+					<OHLCTooltip origin={[-40, 0]}/>
+					<ZoomButtons
+						onReset={this.handleReset}
+					/>
 				</Chart>
-				<Chart id={2} yExtents={d => d.Volume}>
-					<YAxis axisAt="left" orient="left" ticks={5} tickFormat={format(".2s")}/>
-					<BarSeries yAccessor={d => d.Volume} />
+				<Chart id={2}
+					yExtents={d => d.Volume}
+					height={150} origin={(w, h) => [0, h - 150]}
+				>
+					<YAxis
+						axisAt="left"
+						orient="left"
+						ticks={5}
+						tickFormat={format(".2s")}
+						zoomEnabled={zoomEvent}
+					/>
+
+					<MouseCoordinateX
+						at="bottom"
+						orient="bottom"
+						displayFormat={timeFormat("%Y-%m-%d")} />
+					<MouseCoordinateY
+						at="left"
+						orient="left"
+						displayFormat={format(".4s")} />
+
+					<BarSeries yAccessor={d => d.Volume} fill={(d) => d.Close_Price > d.Open_Price ? "#6BA583" : "#FF0000"} />
 				</Chart>
+				<CrossHairCursor />
 			</ChartCanvas>
 		);
 	}
 }
 
-
-CandleStickChart.propTypes = {
+CandleStickChartWithZoomPan.propTypes = {
 	data: PropTypes.array.isRequired,
 	width: PropTypes.number.isRequired,
 	ratio: PropTypes.number.isRequired,
 	type: PropTypes.oneOf(["svg", "hybrid"]).isRequired,
 };
 
-CandleStickChart.defaultProps = {
+CandleStickChartWithZoomPan.defaultProps = {
 	type: "svg",
+	mouseMoveEvent: true,
+	panEvent: true,
+	zoomEvent: true,
+	clamp: true,
 };
-CandleStickChart = fitWidth(CandleStickChart);
 
-export default CandleStickChart;
+CandleStickChartWithZoomPan = fitWidth(CandleStickChartWithZoomPan);
+
+export default CandleStickChartWithZoomPan;
