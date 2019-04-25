@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { csvParse } from  "d3-dsv";
 import { timeParse } from "d3-time-format";
-import { axios } from "axios";
 
 function parseData(parse) {
 	return function(d) {
