@@ -6,10 +6,8 @@ export default class Home extends Component {
   render() {
     return (
       <div className="Home">
-        <div className="lander">
           <h1>ProtoBot</h1>
-          <p>Crypto Pricing Resource</p>
-        </div>
+          <h2>Crypto Pricing Resource</h2>
       </div>
     );
   }

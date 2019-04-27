@@ -19,17 +19,17 @@ render() {
           <Navbar.Toggle aria-controls="justify-content-end" />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav pullLeft>
+          <Nav pullRight>
             <LinkContainer to="/signup">
               <NavItem>Signup</NavItem>
             </LinkContainer>
             <LinkContainer to="/login">
               <NavItem>Login</NavItem>
             </LinkContainer>
-            <LinkContainer to="/data">
+            <LinkContainer to="/BTCData">
             <NavItem>Bitcoin</NavItem>
             </LinkContainer>
-            <LinkContainer to="/chart">
+            <LinkContainer to="/ETHData">
             <NavItem>Ethereum</NavItem>
             </LinkContainer>
           </Nav>

@@ -105,9 +105,7 @@ class CandleStickChartWithZoomPan extends React.Component {
 				displayXAccessor={displayXAccessor}
 			>
 
-				<Chart id={1}
-					yExtents={d => [d.High, d.Low]}
-				>
+				<Chart id={1} yExtents={d => [d.High, d.Low]}>
 					<XAxis axisAt="bottom"
 						orient="bottom"
 						zoomEnabled={zoomEvent}
@@ -116,9 +114,7 @@ class CandleStickChartWithZoomPan extends React.Component {
 						orient="right"
 						ticks={5}
 						zoomEnabled={zoomEvent}
-						{...yGrid}
-					/>
-
+						{...yGrid}/>
 					<MouseCoordinateY
 						at="right"
 						orient="right"

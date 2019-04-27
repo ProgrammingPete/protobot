@@ -9,12 +9,13 @@ export default class Signup extends Component {
 
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            verifyPassword: "",
         };
     }
 
     validateForm() {
-        return this.state.email.length > 0 && this.state.password.length > 0;
+        return this.state.password === this.state.verifyPassword;
     }
 
     handleChange = event => {
@@ -35,7 +36,11 @@ export default class Signup extends Component {
                     this.props.history.push('/login')
                 }
                 else if (response.data === 'failure'){
-                    this.props.history.push('/failure')
+                    return(
+                        <div>
+                            This User already exists, please try again.
+                        </div>
+                    )
                 }
             })
             .catch((error) => {
@@ -67,6 +72,15 @@ export default class Signup extends Component {
                             onChange={this.handleChange}
                             type="password"
                             placeholder={"Password"}
+                        />
+                    </FormGroup>
+                    <FormGroup controlId="verifyPassword" className={"textbox"}>
+                        <i className="fas fa-user" aria-hidden="true"/>
+                        <FormControl
+                            value={this.state.verifyPassword}
+                            onChange={this.handleChange}
+                            type="password"
+                            placeholder={"Re-Enter Password"}
                         />
                     </FormGroup>
                     <Button

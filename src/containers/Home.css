@@ -1,25 +1,24 @@
-.Home .lander {
+.Home {
   padding-top: 80px 0;
   text-align: center;
 }
 
-.Home .lander h1 {
+.Home h1 {
   padding-bottom: 5px;
   font-family: "Roboto", sans-serif;
-  font-weight: 600;
+  font-size: 100px;
   color: white;
   
 }
 
-.Home .lander p {
+.Home h2 {
+  padding-bottom: 5px;
+  font-family: "Roboto", sans-serif;
+  font-size: 48px;
+}
+
+.Homes {
   padding-bottom: 100px;
   color: white;
 }
 
-.Home {
-	padding-bottom: 70px;
-	background-image: url(template.jpg);
-	
-	background-repeat: no-repeat;
-	background-position: center;
-}

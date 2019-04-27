@@ -40,7 +40,7 @@ export default class Login extends Component {
             .then((response) => {
                 console.log("Response", response)
                 if (response.data === 'success'){
-                    this.props.history.push('/data')
+                    this.props.history.push('/BTCData')
                 }
                 else if (response.data === 'failure'){
                     this.props.history.push('/failure')
