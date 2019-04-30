@@ -96,10 +96,10 @@ export default class Data extends React.Component {
 					</thead>
 					<tbody>
 						<tr>
-							<td>${currentData[19].High}</td>
-							<td>${currentData[19].Low}</td>
-							<td>${currentData[19].openPrice}</td>
-							<td>${currentData[19].closePrice}</td>
+							<td>${currentData[currentData.length-1].High}</td>
+							<td>${currentData[currentData.length-1].Low}</td>
+							<td>${currentData[currentData.length-1].openPrice}</td>
+							<td>${currentData[currentData.length-1].closePrice}</td>
 						</tr>
 					</tbody>
 				</table>
