@@ -46,7 +46,8 @@ export default class Data extends React.Component {
 	}
 	
 	getIndicator(){
-		if (this.state.currentData[19].indicator === true)
+		const {currentData} = this.state;
+		if (currentData[currentData.length-1].indicator === true)
 			return "Buy"
 		else
 			return "Sell"
